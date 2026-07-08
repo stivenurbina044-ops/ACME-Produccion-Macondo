@@ -161,6 +161,27 @@ export class UsersView extends HTMLElement {
     const confirmPassword = form.confirmPassword.value;
     const esNuevo = this.editando === "__nuevo__";
 
+    if (!identificacion || !nombreCompleto || !cargo) {
+      this.mensaje = "La identificación, el nombre completo y el cargo no pueden estar vacíos ni contener solo espacios.";
+      this.tipoMensaje = "error";
+      this.render();
+      return;
+    }
+
+    if (esNuevo && (!password.trim() || !confirmPassword.trim())) {
+      this.mensaje = "La contraseña no puede estar vacía ni contener solo espacios.";
+      this.tipoMensaje = "error";
+      this.render();
+      return;
+    }
+
+    if ((password || confirmPassword) && !password.trim()) {
+      this.mensaje = "La nueva contraseña no puede contener solo espacios.";
+      this.tipoMensaje = "error";
+      this.render();
+      return;
+    }
+
     if (password || confirmPassword || esNuevo) {
       if (password !== confirmPassword) {
         this.mensaje = "Las contraseñas no coinciden.";

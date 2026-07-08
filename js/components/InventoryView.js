@@ -18,6 +18,7 @@ export class InventoryView extends HTMLElement {
     this.panel = null; 
     this.editandoCodigo = null; 
     this.formulaRows = [];
+    this.esFabricadoActual = false;
     this.mensaje = "";
     this.tipoMensaje = "info";
   }
@@ -84,6 +85,7 @@ export class InventoryView extends HTMLElement {
     this.querySelector("#btnNuevo").addEventListener("click", () => {
       this.editandoCodigo = null;
       this.formulaRows = [];
+      this.esFabricadoActual = false;
       this.panel = "producto";
       this.render();
     });
@@ -161,6 +163,7 @@ export class InventoryView extends HTMLElement {
     if (!producto) return;
     this.editandoCodigo = codigo;
     this.formulaRows = producto.esFabricado ? [...(producto.formula || [])] : [];
+    this.esFabricadoActual = !!producto.esFabricado;
     this.panel = "producto";
     this.render();
   }
@@ -169,7 +172,7 @@ export class InventoryView extends HTMLElement {
     const producto = this.editandoCodigo
       ? this.productos.find((p) => p.codigo === this.editandoCodigo)
       : null;
-    const esFabricado = producto ? producto.esFabricado : this.formulaRows.length > 0 ? true : false;
+    const esFabricado = this.esFabricadoActual;
 
     return `
       <div class="card card-form">
@@ -241,7 +244,7 @@ export class InventoryView extends HTMLElement {
     const bloqueFormula = form.querySelector("#bloqueFormula");
 
     chkFabricado.addEventListener("change", () => {
-      bloqueFormula.style.display = chkFabricado.checked ? "" : "none";
+      this.esFabricadoActual = chkFabricado.checked;
       if (!chkFabricado.checked) this.formulaRows = [];
       this.render();
     });
@@ -297,6 +300,13 @@ export class InventoryView extends HTMLElement {
     const nombre = form.nombre.value.trim();
     const proveedor = form.proveedor.value.trim();
     const esFabricado = form.querySelector("#chkFabricado").checked;
+
+    if (!codigo || !nombre) {
+      this.mensaje = "El código y el nombre no pueden estar vacíos ni contener solo espacios.";
+      this.tipoMensaje = "error";
+      this.render();
+      return;
+    }
 
     if (esFabricado) {
       const filasInvalidas = this.formulaRows.some((r) => !r.codigo || !r.cantidad || r.cantidad <= 0);

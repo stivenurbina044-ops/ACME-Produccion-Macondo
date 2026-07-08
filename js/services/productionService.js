@@ -97,5 +97,8 @@ export async function ejecutarProduccion(items, usuario) {
 export async function getAllProducciones() {
   const data = await dbGet(NODE);
   if (!data) return [];
-  return Object.values(data).sort((a, b) => b.codigo - a.codigo);
+ 
+  return Object.values(data)
+    .filter((p) => p !== null)
+    .sort((a, b) => b.codigo - a.codigo);
 }

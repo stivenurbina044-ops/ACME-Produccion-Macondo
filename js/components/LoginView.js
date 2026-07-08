@@ -105,7 +105,7 @@ export class LoginView extends HTMLElement {
     const identificacion = form.identificacion.value.trim();
     const password = form.password.value;
 
-    if (!identificacion || !password) {
+    if (!identificacion || !password.trim()) {
       this.setMensaje("Ingresa identificación y contraseña.", "error");
       return;
     }
@@ -144,6 +144,16 @@ export class LoginView extends HTMLElement {
     const cargo = form.cargo.value.trim();
     const password = form.password.value;
     const confirmPassword = form.confirmPassword.value;
+
+    if (!identificacion || !nombreCompleto || !cargo) {
+      this.setMensaje("Completa identificación, nombre completo y cargo (no pueden ser solo espacios).", "error");
+      return;
+    }
+
+    if (!password.trim() || !confirmPassword.trim()) {
+      this.setMensaje("La contraseña no puede estar vacía ni contener solo espacios.", "error");
+      return;
+    }
 
     if (password !== confirmPassword) {
       this.setMensaje("Las contraseñas no coinciden. Verifícalas.", "error");
