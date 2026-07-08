@@ -50,6 +50,7 @@ ProyectoAcmeProduccion_JavaScript_ApellidoNombre/
 │   ├── services/
 │   │   ├── firebaseService.js
 │   │   ├── inventoryService.js
+│   │   ├── productiondraftstate.js
 │   │   ├── productionService.js
 │   │   ├── sessionState.js
 │   │   └── usersService.js
