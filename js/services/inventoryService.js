@@ -9,7 +9,8 @@ export async function getProduct(codigo) {
 export async function getAllProducts() {
   const data = await dbGet(NODE);
   if (!data) return [];
-  return Object.values(data);
+
+  return Object.values(data).filter((p) => p !== null);
 }
 
 
