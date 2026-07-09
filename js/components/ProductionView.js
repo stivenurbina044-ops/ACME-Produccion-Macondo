@@ -164,13 +164,18 @@ export class ProductionView extends HTMLElement {
 
   renderHistorial() {
     if (this.historial.length === 0) return `<p class="muted">Aún no se han registrado procesos de producción.</p>`;
+    
+    const historialOrdenado = [...this.historial].sort((a, b) => {
+        return a.codigo - b.codigo;
+    });
+
     return `
       <table class="table">
         <thead>
           <tr><th>N.º proceso</th><th>Fecha</th><th>Usuario</th><th>Productos</th></tr>
         </thead>
         <tbody>
-          ${this.historial
+          ${historialOrdenado
             .map(
               (p) => `
             <tr>
@@ -185,7 +190,7 @@ export class ProductionView extends HTMLElement {
         </tbody>
       </table>
     `;
-  }
+}
 
   handleAgregarItem(e) {
     e.preventDefault();
